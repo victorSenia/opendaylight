@@ -1,0 +1,9 @@
+module ext {
+    yang-version 1;
+    namespace "urn:opendaylight:params:xml:ns:yang:ext";
+    prefix "ext";
+
+    revision "2015-01-05" {
+        description "Initial revision of ext model";
+    }
+}
