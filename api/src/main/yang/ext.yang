@@ -6,4 +6,17 @@ module ext {
     revision "2015-01-05" {
         description "Initial revision of ext model";
     }
+
+    rpc ext-hello-world {
+         input {
+             leaf name {
+                 type string;
+             }
+         }
+         output {
+             leaf greeting {
+                 type string;
+             }
+         }
+    }
 }

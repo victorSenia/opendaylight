@@ -11,7 +11,7 @@ run from intellij
 if maven is installed this also should work
 mvc -s ./settings.xml archetype:generate -DarchetypeGroupId=org.opendaylight.controller -DarchetypeArtifactId=opendaylight-startup-archetype -DarchetypeRepository=http://nexus.opendaylight.org/content/repositories/opendaylight.snapshot/ -DarchetypeCatalog=http://nexus.opendaylight.org/content/repositories/opendaylight.snapshot/archetype-catalog.xml
 
-
+for me successfully only on 3-th time
 mvn install
 
 start server
@@ -29,5 +29,6 @@ http://localhost:8181/restconf/operations/ext:ext-hello-world
 Content-Type: application/json
 authorization: Basic YWRtaW46YWRtaW4=
 
+stop server
 shutdown -f
 Ctrl+D
