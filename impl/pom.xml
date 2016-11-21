@@ -13,7 +13,7 @@ and is available at http://www.eclipse.org/legal/epl-v10.html
   <parent>
     <groupId>org.opendaylight.controller</groupId>
     <artifactId>config-parent</artifactId>
-    <version>0.5.2-SNAPSHOT</version>
+    <version>0.6.0-SNAPSHOT</version>
     <relativePath/>
   </parent>
 
@@ -27,6 +27,12 @@ and is available at http://www.eclipse.org/legal/epl-v10.html
       <groupId>${project.groupId}</groupId>
       <artifactId>ext-api</artifactId>
       <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+        <groupId>org.opendaylight.openflowjava</groupId>
+        <artifactId>openflow-protocol-spi</artifactId>
+        <version>0.9.0-SNAPSHOT</version>
     </dependency>
 
     <!-- Testing Dependencies -->

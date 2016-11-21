@@ -7,10 +7,17 @@
  */
 package org.opendaylight.ext.impl;
 
+import java.util.List;
+
 import org.opendaylight.controller.md.sal.binding.api.DataBroker;
-import org.opendaylight.controller.sal.binding.api.BindingAwareBroker;
-import org.opendaylight.controller.sal.binding.api.RpcProviderRegistry;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.ext.rev150105.ExtService;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.ext.config.rev161101.modules.module.configuration.OpenflowjavaExtension;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.ext.config.rev161101.modules.module.configuration.OpenflowjavaExtensionBuilder;
+import org.opendaylight.openflowjava.protocol.api.util.EncodeConstants;
+import org.opendaylight.openflowjava.protocol.spi.connection.SwitchConnectionProvider;
+import org.opendaylight.openflowjava.protocol.api.keys.ExperimenterActionSerializerKey;
+import org.opendaylight.openflowjava.protocol.api.keys.ExperimenterActionDeserializerKey;
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,19 +26,25 @@ public class ExtProvider {
     private static final Logger LOG = LoggerFactory.getLogger(ExtProvider.class);
 
     private final DataBroker dataBroker;
-    private final RpcProviderRegistry rpcProviderRegistry;
-    private BindingAwareBroker.RpcRegistration<ExtService> serviceRegistration;
+    private final List<SwitchConnectionProvider> providers;
 
-    public ExtProvider(final DataBroker dataBroker, RpcProviderRegistry rpcProviderRegistry) {
+    public ExtProvider(final DataBroker dataBroker) {
         this.dataBroker = dataBroker;
-        this.rpcProviderRegistry = rpcProviderRegistry;
+
+        OpenflowjavaExtensionBuilder builder = new OpenflowjavaExtensionBuilder();
+        this.providers = builder.build().getOpenflowSwitchConnectionProvider();
     }
 
     /**
      * Method called when the blueprint container is created.
      */
     public void init() {
-        serviceRegistration = rpcProviderRegistry.addRpcImplementation(ExtService.class, new ExtHelloWorldImpl());
+      // helper = new ActionSerializerRegistryHelper(EncodeConstants.OF13_VERSION_ID, serializerRegistry);
+      // helper.registerSerializer(ActionFoo.class, new FooActionSerializer());
+      //ExperimenterActionSerializerKey key1 =
+      //        new ExperimenterActionSerializerKey(EncodeConstants.OF13_VERSION_ID, ExtConstants.EXPERIMENTER_ID, null);
+      //SwitchConnectionProviderImpl.registerActionSerializer(key1, new FooActionSerializer());
+      //SwitchConnectionProvider.registerActionDeserializer(key, new FooActionDeserializer());
         LOG.info("ExtProvider Session Initiated");
     }
 
@@ -39,7 +52,10 @@ public class ExtProvider {
      * Method called when the blueprint container is destroyed.
      */
     public void close() {
-        serviceRegistration.close();
+    //    ExperimenterActionSerializerKey key =
+    //          new ExperimenterActionSerializerKey(EncodeConstants.OF13_VERSION_ID, ExtConstants.EXPERIMENTER_ID, null);
+    //    SwitchConnectionProvider.unregisterSerializer(key);
+    //    SwitchConnectionProvider.unregisterDeserializer(key);
         LOG.info("ExtProvider Closed");
     }
 }

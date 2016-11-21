@@ -1,0 +1,41 @@
+/*
+ * Copyright © 2016 Opendaylight and others.  All rights reserved.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ */
+package org.opendaylight.ext.impl;
+
+        import org.opendaylight.openflowjava.nx.api.ExtCodecRegistrator;
+        import org.opendaylight.openflowjava.nx.codec.action.ConntrackCodec;
+
+        import com.google.common.base.Preconditions;
+
+public class ExtRegistrator implements AutoCloseable {
+
+    private final ExtCodecRegistrator registrator;
+
+    /**
+     * @param registrator cannot be null
+     */
+    public ExtRegistrator(ExtCodecRegistrator registrator) {
+        this.registrator = Preconditions.checkNotNull(registrator);
+    }
+
+    public void registerExtensions() {
+        registrator.registerActionSerializer(FooCodec.SERIALIZER_KEY, ExtActionCodecs.FOO_CODEC);
+        registrator.registerActionDeserializer(FooCodec.DESERIALIZER_KEY, ExtActionCodecs.FOO_CODEC);
+    }
+
+    public void unregisterExtensions() {
+        registrator.unregisterActionSerializer(FooCodec.SERIALIZER_KEY);
+        registrator.unregisterActionDeserializer(FooCodec.DESERIALIZER_KEY);
+    }
+
+    @Override
+    public void close() throws Exception {
+        unregisterExtensions();
+    }
+
+}

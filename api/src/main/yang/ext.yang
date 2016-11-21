@@ -7,16 +7,45 @@ module ext {
         description "Initial revision of ext model";
     }
 
-    rpc ext-hello-world {
-         input {
-             leaf name {
-                 type string;
-             }
-         }
-         output {
-             leaf greeting {
-                 type string;
-             }
-         }
+    import openflow-types {prefix oft;}
+    import openflow-action {prefix ofaction;}
+    import yang-ext {prefix ext;}
+
+    identity foo {
+        description "Foo action description";
+        base oft:action-base;
+    }
+
+    // OFP_ACTION AUGMENTS
+        augment "/ofaction:action-container/ofaction:action-choice" {
+        ext:augment-identifier "foo-action";
+        case action-foo {
+            container ext-action-foo {
+                leaf first {
+                    type uint16;
+                }
+                leaf second {
+                    type uint16;
+                }
+            }
+        }
     }
 }
+/*
+// OFP_ACTION AUGMENTS
+     augment "/ofaction:action-container/ofaction:action-choice" {
+         ext:augment-identifier "experimenter-id-action";
+         case experimenter-id-case {
+             container experimenter {
+                 leaf experimenter {
+                     type oft:experimenter-id;
+                 }
+                 leaf sub-type {
+                     type identityref {
+                         base ofaction:experimenter-action-sub-type;
+                     }
+                 }
+             }
+         }
+     }
+*/
